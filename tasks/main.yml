@@ -10,11 +10,15 @@
   ansible.builtin.set_fact:
     git_repo: "{{ git_repo_name | join(' ') }}"
 
+- name: Ansible Git | Extract repo name
+  ansible.builtin.set_fact:
+    git_repo_path: "{{ working_dir }}/{{ git_repo }}"
+
 - name: Ansible Git | Clone repository
   ansible.builtin.git:
     repo: "{{ (git_repo_url | replace(protocol, protocol_token)) if git_token is defined and git_token != '' else git_repo_url }}"
     version: "{{ git_branch | default('main', true) }}"
-    dest: "{{ working_dir }}/{{ git_repo }}"
+    dest: "{{ git_repo_path }}"
   vars:
     protocol: "https://"
     protocol_token: "https://{{ git_token | default(omit,true) }}@"
@@ -25,7 +29,7 @@
   block:
     - name: Ansible Git | Configure local repo to commit and push
       ansible.builtin.shell:
-        chdir: "{{ working_dir }}/{{ git_repo }}"
+        chdir: "{{ git_repo_path }}"
         cmd: |
           git config --local user.name {{ git_user }}
           git config --local user.email {{ git_email }}
@@ -33,17 +37,17 @@
     - name: Ansible Git | Add files to staged changes
       ansible.builtin.shell:
         cmd: git add -A
-        chdir: "{{ working_dir }}/{{ git_repo }}"
+        chdir: "{{ git_repo_path }}"
       register: git_add_result
 
     - name: Ansible Git | Commit changes
       ansible.builtin.shell:
         cmd: git commit -m "{{ git_commit_message }}"
-        chdir: "{{ working_dir }}/{{ git_repo }}"
+        chdir: "{{ git_repo_path }}"
       register: git_commit_result
 
     - name: Ansible Git | Push changes to remote repo
       ansible.builtin.shell:
         cmd: git push -u origin {{ git_branch | default('main', true) }}
-        chdir: "{{ working_dir }}/{{ git_repo }}"
+        chdir: "{{ git_repo_path }}"
       register: git_push_result

@@ -1,31 +1,60 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role allows performing some actions (commit, push) that cannot be yet performed using the git module.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+**git** must be installed on the host that will run the role.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The role allows to perform a clone or a pull for a git repository.
 
-Dependencies
-------------
+| *variable* | *description* | *default* |
+| git_action            | The action to perform, can be clone/push | no default |
+| git_branch            | The branch to clone from/to push to | main |
+| git_commit_message    | The commit message to set | no default |
+| git_repo_url          | The HTTPS URL of the repository | no default |
+| git_repo_email        | The email of the user (only for push action) | no default |
+| git_repo_token        | The GitHub token to use for pushing/cloning repos | no default |
+| git_repo_username     | The GitHub username to use when interacting with the repo| no default |
+| git_working_dir       | The directory where the the repo should be cloned (clone action), or the folder that contains the cloned repository folder (push action) | ~ |
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Use this requirements.yml to setup your dependencies:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+    ---
+    collections:
+      - community.general
+    roles:
+      - name: ansible-git-role
+        src: https://github.com/kubealex/ansible-sushy-tools-podman.git
+
+Sample usage with default settings:
+
+    - hosts: my_host
+      vars:
+        git_branch: my_branch
+        git_repo_url: "https://github.com/kubealex/my_repo.git"
+        git_repo_email: "this_is@email.me"
+        git_repo_token: "Supersecret"
+        git_repo_username: "kubealex"
+        git_working_dir: /path/to/folder
+
+      tasks:
+        - name: Include git role for push
+          ansible.builtin.include_role:
+            name: ansible-git-role
+          vars:
+            git_action: push
+            git_commit_message: "This is a sample"
+
 
 License
 -------

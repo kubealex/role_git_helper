@@ -14,6 +14,7 @@ Role Variables
 The role allows to perform a clone or a pull for a git repository.
 
 | *variable* | *description* | *default* |
+|--------------|------------------------------------------------|-----------|
 | git_action            | The action to perform, can be clone/push | no default |
 | git_branch            | The branch to clone from/to push to | main |
 | git_commit_message    | The commit message to set | no default |

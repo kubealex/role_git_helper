@@ -3,7 +3,7 @@
 
 - name: Ansible Git | Set working directory
   ansible.builtin.set_fact:
-    working_dir: "{{ git_working_dir | default(ansible_env.HOME) }}"
+    working_dir: "{{ git_working_dir | default(ansible_env.HOME, true) }}"
     git_repo_name: "{{ git_repo_url | regex_findall('[^\/]*.git$') | replace('.git','') }}"
 
 - name: Ansible Git | Extract repo name

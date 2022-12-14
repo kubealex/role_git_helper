@@ -25,6 +25,8 @@ The role allows to perform a clone or a pull for a git repository.
 | git_working_dir       | The directory where the the repo should be cloned (clone action), or the folder that contains the cloned repository folder (push action) | ~ |
 
 
+The role sets a fact, **git_repo_path** that contains the path of the cloned repo, for further use.
+
 Example Playbook
 ----------------
 

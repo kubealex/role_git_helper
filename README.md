@@ -20,7 +20,7 @@ The role allows to perform a clone or a pull for a git repository.
 | git_commit_message    | The commit message to set | no default |
 | git_repo_url          | The HTTPS URL of the repository | no default |
 | git_repo_email        | The email of the user (only for push action) | no default |
-| git_repo_token        | The GitHub token to use for pushing/cloning repos | no default |
+| git_repo_token        | The GitHub token to use for pushing/cloning repos | no default - Leave it empty or undefined to use SSH keys |
 | git_repo_username     | The GitHub username to use when interacting with the repo| no default |
 | git_working_dir       | The directory where the the repo should be cloned (clone action), or the folder that contains the cloned repository folder (push action) | ~ |
 

@@ -37,7 +37,7 @@ Use this requirements.yml to setup your dependencies:
       - community.general
     roles:
       - name: ansible-git-role
-        src: https://github.com/kubealex/ansible-sushy-tools-podman.git
+        src: https://github.com/kubealex/role_git_helper.git
 
 Sample usage with default settings:
 

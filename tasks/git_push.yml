@@ -4,8 +4,8 @@
       ansible.builtin.shell:
         chdir: "{{ git_repo_path }}"
         cmd: |
-          git config --local user.name {{ git_user }}
-          git config --local user.email {{ git_email }}
+          git config --local user.name {{ git_repo_username }}
+          git config --local user.email {{ git_repo_email }}
 
     - name: Ansible Git | Add files to staged changes
       ansible.builtin.shell:

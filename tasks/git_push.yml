@@ -1,0 +1,26 @@
+- name: Ansible Git | Prepare for commit and push
+  block:
+    - name: Ansible Git | Configure local repo to commit and push
+      ansible.builtin.shell:
+        chdir: "{{ git_repo_path }}"
+        cmd: |
+          git config --local user.name {{ git_user }}
+          git config --local user.email {{ git_email }}
+
+    - name: Ansible Git | Add files to staged changes
+      ansible.builtin.shell:
+        cmd: git add -A
+        chdir: "{{ git_repo_path }}"
+      register: git_add_result
+
+    - name: Ansible Git | Commit changes
+      ansible.builtin.shell:
+        cmd: git commit -m "{{ git_commit_message }}"
+        chdir: "{{ git_repo_path }}"
+      register: git_commit_result
+
+    - name: Ansible Git | Push changes to remote repo
+      ansible.builtin.shell:
+        cmd: git push -u origin {{ git_branch | default('main', true) }}
+        chdir: "{{ git_repo_path }}"
+      register: git_push_result

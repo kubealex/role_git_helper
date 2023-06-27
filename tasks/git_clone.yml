@@ -1,9 +1,9 @@
 - name: Ansible Git | Clone repository
   ansible.builtin.git:
-    repo: "{{ (git_repo_url | replace(protocol, protocol_token)) if git_token is defined and git_token != '' else git_repo_url }}"
-    version: "{{ git_branch | default('main', true) }}"
+    repo: "{{ (git_repo_url | replace(protocol, protocol_token)) if git_repo_token is defined and git_repo_token != '' else git_repo_url }}"
+    version: "{{ git_repo_branch | default('main', true) }}"
     dest: "{{ git_repo_path }}"
   vars:
     protocol: "https://"
-    protocol_token: "https://{{ git_token | default(omit, true) }}@"
+    protocol_token: "https://{{ git_repo_token | default(omit, true) }}@"
   when: git_action == 'clone'

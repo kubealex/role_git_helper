@@ -21,6 +21,6 @@
 
     - name: Ansible Git | Push changes to remote repo
       ansible.builtin.shell:
-        cmd: git push -u origin {{ git_branch | default('main', true) }}
+        cmd: git push -u origin {{ git_repo_branch | default('main', true) }}
         chdir: "{{ git_repo_path }}"
       register: git_push_result
